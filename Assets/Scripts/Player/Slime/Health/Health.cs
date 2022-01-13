@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    //variables available in editor
     [SerializeField] private float startingHealth;
+    [SerializeField] private float healTimer; //in seconds
 
-    
+    //variables unavailable in editor
     public float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
 
     private void Awake()
-    {
+    {   //setup variables and get references
         currentHealth = startingHealth;
         anim = GetComponent<Animator>();
         StartCoroutine(HealTimer());
@@ -20,15 +22,17 @@ public class Health : MonoBehaviour
 
     
     public void TakeDamage(float _damage)
-    {
-        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth);
+    {   
+        //player hurt
+        currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth); //hp dont go above or below this clamp
         if (currentHealth > 0)
         {
-            anim.SetTrigger("hurt");
+            anim.SetTrigger("hurt"); //start anim
         }
         else
         {
-            if (!dead)
+            //player die
+            if (!dead) //make sure the player die once
             {
                 anim.SetTrigger("die");
                 GetComponent<PlayerMovement>().enabled = false;
@@ -40,16 +44,15 @@ public class Health : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q)) //just to check dmg is working
             TakeDamage(1);
 
     }
 
-
-
+    //Player will automatily heal for a certain amount
     IEnumerator HealTimer()
     {
-        WaitForSeconds wait = new WaitForSeconds(3);
+        WaitForSeconds wait = new WaitForSeconds(healTimer);
         while (!dead)
         {
             TakeDamage(-1);

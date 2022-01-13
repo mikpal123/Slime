@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class CameraMotor : MonoBehaviour
 {
-    public Transform lookAt;
+    //variables available in editor
+    [SerializeField] private Transform lookAt;
     [SerializeField] private float boundX;
     [SerializeField] private float boundY;
 
 
     private void LateUpdate()
-    {
+    {   
+        //Reset vector delta
         Vector3 delta = Vector3.zero;
 
         //Check if we're inside box on X axis
@@ -19,7 +21,7 @@ public class CameraMotor : MonoBehaviour
         {
             if(transform.position.x < lookAt.position.x)
             {
-                delta.x = deltaX - boundX;
+                delta.x = deltaX - boundX; 
             }
             else
             {
@@ -39,7 +41,7 @@ public class CameraMotor : MonoBehaviour
                 delta.y = deltaY + boundY;
             }
         }
-
+        //Moving a camera
         transform.position += new Vector3(delta.x, delta.y, 0);
     }
 }
