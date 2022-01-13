@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Floor
   - Water
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Player
   - Camera
   - Water
-  - 
+  - Wall
   - 
   - 
   - 
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: Floor
     uniqueID: 467236309
+    locked: 0
+  - name: Wall
+    uniqueID: 1616430993
     locked: 0
   - name: Player
     uniqueID: 124260579

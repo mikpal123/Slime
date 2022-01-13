@@ -6,8 +6,8 @@ public class CameraMotor : MonoBehaviour
 {
     //variables available in editor
     [SerializeField] private Transform lookAt;
-    [SerializeField] private float boundX;
-    [SerializeField] private float boundY;
+    [SerializeField] private float boundX; //offset X
+    [SerializeField] private float boundY; //offset Y
 
 
     private void LateUpdate()
@@ -28,6 +28,7 @@ public class CameraMotor : MonoBehaviour
                 delta.x = deltaX + boundX;
             }
         }
+
         //Check if we're inside box on Y axis
         float deltaY = lookAt.position.y - transform.position.y;
         if (transform.position.y > lookAt.position.y)
@@ -41,6 +42,7 @@ public class CameraMotor : MonoBehaviour
                 delta.y = deltaY + boundY;
             }
         }
+
         //Moving a camera
         transform.position += new Vector3(delta.x, delta.y, 0);
     }
