@@ -8,8 +8,7 @@ public class PlayerMovement : MonoBehaviour
 {
     //variables available in editor
     [SerializeField] private float movementSpeed;
-    [SerializeField] private float jumpHeight;
-    
+    [SerializeField] private float jumpHeight;  
     [SerializeReference] private GameObject water;
     [SerializeField] private LayerMask groundMask;
     [SerializeField] private LayerMask wallMask;
@@ -19,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D body;
     private Vector3 moveDelta;
     private Animator anim;
-    private bool inWater;
+    public bool inWater;
     private float basicMovement;
     private float wallJumpCooldown;
     private float x;
@@ -61,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         body.velocity = new Vector2((x * movementSpeed)/basicMovement, body.velocity.y/ basicMovement);
 
         
+        
 
         //Animator parameters
         anim.SetBool("run",x!=0);
@@ -94,9 +94,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    { 
-    } 
     
     // chceck if target can attack
     public bool canAttack()
@@ -124,7 +121,9 @@ public class PlayerMovement : MonoBehaviour
         return Hit.collider != null;
     }
 
-    private void WallJump()   //Wall jump
+
+    //Wall jump
+    private void WallJump()   
     {
         
         if (wallJumpCooldown < 0.1f)  //check cooldown
@@ -151,4 +150,15 @@ public class PlayerMovement : MonoBehaviour
             wallJumpCooldown += Time.deltaTime;
         }
     }
+
+    //check if plaayer can use eating
+    public bool CanEat()
+    {
+        if (!IsOnWall())        
+            return true;       
+        else
+            return false;
+    }
+
+
 }

@@ -24,8 +24,8 @@ public class Water : MonoBehaviour
         {
             basicMovement = movementResistance;
             inWater = true;
-        }
             
+        }          
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -34,9 +34,9 @@ public class Water : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             basicMovement = 1;
-            inWater = false; 
-        }
-            
+            inWater = false;
+           
+        }          
     }
 
     //just for returning basicMovement value (default is 1)
