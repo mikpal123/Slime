@@ -7,6 +7,7 @@ TagManager:
   - Floor
   - Water
   - Wall
+  - Eating
   layers:
   - Default
   - TransparentFX

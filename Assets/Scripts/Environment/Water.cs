@@ -10,6 +10,7 @@ public class Water : MonoBehaviour
     private PlayerMovement playerMovement;  
     private float basicMovement=1;
     private bool inWater = false;
+    public bool canGaingWater { get; private set; }
 
     void Awake()
     {
@@ -23,9 +24,12 @@ public class Water : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             basicMovement = movementResistance;
-            inWater = true;
-            
-        }          
+            inWater = true;           
+        }
+        else if (collision.gameObject.tag == "Eating")
+        {
+            canGaingWater = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -36,7 +40,11 @@ public class Water : MonoBehaviour
             basicMovement = 1;
             inWater = false;
            
-        }          
+        }   
+        else if(collision.gameObject.tag == "Eating") 
+        {
+            canGaingWater = false;
+        } 
     }
 
     //just for returning basicMovement value (default is 1)

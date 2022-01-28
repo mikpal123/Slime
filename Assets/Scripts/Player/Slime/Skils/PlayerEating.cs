@@ -6,15 +6,19 @@ public class PlayerEating : MonoBehaviour
 {
 
     [SerializeReference] private GameObject EatingObject;
-
+    private Water water;
     private PlayerMovement playerMovement;
     private Health health;
+    private BoxCollider2D box;
+    private string whatHit;
     public float waterOwned;
     public bool isEating { get; private set; }
 
     // Start is called before the first frame update
     void Start()
-    {
+    {   
+        water = FindObjectOfType<Water>();
+        box = GetComponent<BoxCollider2D>();
         playerMovement = GetComponent<PlayerMovement>();
         isEating = false;
         health = GetComponent<Health>();
@@ -43,7 +47,7 @@ public class PlayerEating : MonoBehaviour
 
     private void Eating()
     {
-        if (playerMovement.inWater)
+        if (water.canGaingWater)
         {
             EatingWatter();
         }
@@ -53,4 +57,5 @@ public class PlayerEating : MonoBehaviour
         if(waterOwned <=10)
         waterOwned += 0.01f;
     }
+
 }

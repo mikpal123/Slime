@@ -7,6 +7,7 @@ public class WaterJetpack : MonoBehaviour
     [SerializeReference] private ParticleSystem particle;
     [SerializeField] private float defaultJetForce;
     [SerializeField] private float jetWaterForce;
+    private Water water;
     private PlayerEating playerEating;
     private float jetForce;
     private Health health;
@@ -18,6 +19,7 @@ public class WaterJetpack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        water = FindObjectOfType<Water>();
         playerEating = GetComponent<PlayerEating>();
         playerMovement = GetComponent<PlayerMovement>();
         body = GetComponent<Rigidbody2D>();
@@ -38,8 +40,9 @@ public class WaterJetpack : MonoBehaviour
             particle.Play();
             usingJetpack = true;
         }
+
            
-        if (Input.GetKeyUp(KeyCode.Space) || playerEating.waterOwned < 0.01)
+        if (Input.GetKeyUp(KeyCode.Space) || (playerEating.waterOwned <=0 && !playerMovement.inWater) )
         {
             usingJetpack = false;
             particle.Stop();
