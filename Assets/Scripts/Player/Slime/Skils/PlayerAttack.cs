@@ -9,7 +9,9 @@ public class PlayerAttack : MonoBehaviour
 
     //variables unavailable in editor
     private Animator anim;
+    private Health health;
     private PlayerMovement playerMovement;
+    private PlayerEating playerEating;
     private float cooldownTimer = Mathf.Infinity;
 
 
@@ -17,7 +19,9 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {   //take references from object
         anim = GetComponent<Animator>();
+        health = GetComponent<Health>();
         playerMovement = GetComponent<PlayerMovement>();
+        playerEating = GetComponent<PlayerEating>();
     }
     
 
@@ -25,20 +29,22 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         //chceck if player can attack
-        if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown && playerMovement.canAttack())
+        if (Input.GetMouseButton(0) && cooldownTimer > attackCooldown && playerMovement.canAttack() && !playerEating.isEating && !health.dead && playerEating.waterOwned > 0)
             Attack();
-
+        
         cooldownTimer += Time.deltaTime;    
     }
 
     private void Attack()
     {
+        playerEating.waterOwned += -0.1f;
         anim.SetTrigger("attack");//start anim
-        cooldownTimer = 0;
+        cooldownTimer = 0;//reset cd
 
         //taking free prefab and making transform
         WaterAttack[FindWaterAttacks()].transform.position = firePoint.position; 
         WaterAttack[FindWaterAttacks()].GetComponent<WatterAttack>().SetDirection(Mathf.Sign(transform.localScale.x));
+       
     }
 
     //search for a free prefab to eject
