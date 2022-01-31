@@ -7,22 +7,22 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     //variables available in editor
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float jumpHeight;  
-    [SerializeReference] private GameObject water;
-    [SerializeField] private LayerMask groundMask;
-    [SerializeField] private LayerMask wallMask;
+    [SerializeField] private float movementSpeed;       //player movement speed basic value
+    [SerializeField] private float jumpHeight;          //player jump height basic value   
+    [SerializeReference] private GameObject water;      //water reference
+    [SerializeField] private LayerMask groundMask;      //reference to every layer that is consider as ground
+    [SerializeField] private LayerMask wallMask;        //reference to every layer that is consider as wall
 
     //variables unavailable in editor
-    private BoxCollider2D boxColider;
-    private Rigidbody2D body;
-    private Vector3 moveDelta;
-    private Animator anim;
-    public bool inWater;
-    private float basicMovement;
-    private float wallJumpCooldown;
-    private float x;
-    private float y;
+    private BoxCollider2D boxColider;                   //reference to box colider
+    private Rigidbody2D body;                           //reference to rigid body
+    private Vector3 moveDelta;                          //with direction player should be facing
+    private Animator anim;                              //reference to anim
+    public bool inWater;                                //if true player is in water
+    private float basicMovement;                        //conteiner for basic movement
+    private float wallJumpCooldown;                     //CD for wall climbing
+    private float x;                                    //value of 'a', 'd' input
+    private float y;                                    //valie of 'w', 's' input
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +37,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         //Movement bindings
-        x = Input.GetAxisRaw("Horizontal");
-        y = Input.GetAxisRaw("Jump");
+        x = Input.GetAxisRaw("Horizontal");             //bind x to 'a', 'd' input
+        y = Input.GetAxisRaw("Jump");                   //bind y to 'w', 's' input
 
         //checking movement multiplayer
         basicMovement = water.GetComponent<Water>().BasicMovement();
@@ -52,9 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
         //Swap sprite direction, wether youre going right or left
         if (moveDelta.x > 0)
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(1f, 1f, 1f);  //move right
         else if (moveDelta.x < 0)
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            transform.localScale = new Vector3(-1f, 1f, 1f); //move left
 
         //Move left or right
         body.velocity = new Vector2((x * movementSpeed)/basicMovement, body.velocity.y/ basicMovement);
@@ -63,8 +63,8 @@ public class PlayerMovement : MonoBehaviour
         
 
         //Animator parameters
-        anim.SetBool("run",x!=0);
-        anim.SetBool("grounded", IsGrounded());
+        anim.SetBool("run",x!=0);                   //setup value for run, if x!=0 start run anim
+        anim.SetBool("grounded", IsGrounded());     //setup value for run, if x!=0 start jump anim
 
         //Wall Jump
         WallJump();
@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     
-    // chceck if target can attack
+    //chceck if target can attack
     public bool canAttack()
     {
         if (!inWater) 
@@ -108,17 +108,18 @@ public class PlayerMovement : MonoBehaviour
         }
     }
    
-    //check if we are om the ground
+    //check if player is on the ground
     public bool IsGrounded()
     {
         RaycastHit2D Hit = Physics2D.BoxCast(boxColider.bounds.center, boxColider.bounds.size, 0, Vector2.down, 0.01f, groundMask); //raycast to check if there are near ground
-        return Hit.collider != null;
+        return Hit.collider != null;                                                                                                //if true that means player is on ground
     }
 
+    //check if player is near wall
     public bool IsOnWall()
     {
         RaycastHit2D Hit = Physics2D.BoxCast(boxColider.bounds.center, boxColider.bounds.size, 0, new Vector2(transform.localScale.x,0), 0.01f, wallMask); //raycast to check if there are near wall
-        return Hit.collider != null;
+        return Hit.collider != null;                                                                                                                       //if true that means player is near wall
     }
 
 
@@ -128,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (wallJumpCooldown < 0.1f)  //check cooldown
         {
-            body.velocity = new Vector2((x * movementSpeed) / basicMovement, body.velocity.y / basicMovement);
+            body.velocity = new Vector2((x * movementSpeed) / basicMovement, body.velocity.y / basicMovement); //change player velocity
 
             if (IsOnWall() && !IsGrounded())    //check if can jump
             {
@@ -147,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            wallJumpCooldown += Time.deltaTime;
+            wallJumpCooldown += Time.deltaTime; //start tiemr
         }
     }
 

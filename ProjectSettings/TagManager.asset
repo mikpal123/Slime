@@ -8,6 +8,7 @@ TagManager:
   - Water
   - Wall
   - Eating
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Camera
   - Water
   - Wall
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -59,4 +60,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 124260579
+    locked: 0
+  - name: Enemy
+    uniqueID: 1947438471
     locked: 0
