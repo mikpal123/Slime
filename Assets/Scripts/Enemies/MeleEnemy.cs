@@ -7,9 +7,9 @@ public class MeleEnemy : MonoBehaviour
     [SerializeField] private float attackCd; //Enemy attack cooldown
     [SerializeField] private int damage; //Enemy attack damage
     [SerializeField] private Health playerHealth; //Player HP reference
-
-    public bool onCd; // true if enemy is still on attack cooldown
-    public bool canHitPlayer;// true if player is still in range of Attack
+    private bool isAttacking; //true if enemy is attacking now
+    private bool onCd; // true if enemy is still on attack cooldown
+    private bool canHitPlayer;// true if player is still in range of Attack
     private Animator anim; //reference to enemy anim
 
     
@@ -52,5 +52,13 @@ public class MeleEnemy : MonoBehaviour
         WaitForSeconds wait = new WaitForSeconds(attackCd);     //start timer to reset cd od attack
         onCd = false;                                           //when timer end counting down enemy can attack again
         yield return wait;
+    }
+
+    private void IsAtacking(float _value)
+    {
+        if (_value != 0)
+            anim.SetBool("isAttacking", true);
+        else
+            anim.SetBool("isAttacking", false);
     }
 }
