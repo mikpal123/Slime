@@ -14,9 +14,11 @@ public class PathEnemy : MonoBehaviour
 
     [Header("Movement Parameters")]
     [SerializeField] private float speed;
+    [SerializeField] private bool haveRunAnimation;
     private Vector3 initScale;
     private bool movingLeft;
     private Rigidbody2D body;
+    
 
     [Header("Idle Behaviour")]
     [SerializeField] private float idleDuration;
@@ -45,10 +47,14 @@ public class PathEnemy : MonoBehaviour
         if (anim.GetBool("isAttacking"))
         {
             MoveInDirecrion((int)enemy.localScale.x, 0);
+            if (haveRunAnimation) { anim.SetBool("run", false); }
+            
         }
         else
-        {          
-                if (movingLeft)
+        {
+             if (haveRunAnimation) { anim.SetBool("run", true); }//setup value for run, if x!=0 start run anim
+
+            if (movingLeft)
                 {
                     if (enemy.position.x >= leftEdge.position.x)
                         MoveInDirecrion(-1,speed);

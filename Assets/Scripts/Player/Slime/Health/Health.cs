@@ -28,7 +28,6 @@ public class Health : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))                   //just to check dmg is working
             TakeDamage(1);
-
     }
 
     //Player will automatily heal for a certain amount
@@ -60,27 +59,35 @@ public class Health : MonoBehaviour
                 //for player
                 if(GetComponent<PlayerMovement>() != null)                      //check if its not null
                 {
-                    GetComponent<PlayerMovement>().enabled = false;             //disable every usable component
-                    GetComponent<PlayerAttack>().enabled = false;               //
-                    GetComponent<WaterJetpack>().enabled = false;               //
-                    GetComponent<PlayerEating>().enabled = false;               //
+                    DisablePlayerComponents();
                 }
 
-
                 //for enemy
-                if (GetComponent<PlayerMovement>() != null)                     //check if its not null
+                if (GetComponent <MeleEnemy>() != null)                     //check if its not null
                 {
-                    GetComponent<MeleEnemy>().enabled = false;
-
-                }                      
-                   
-
-
-
+                    DisableEnemyComponents();
+                }
                 dead = true;                                                    //make sure player is dead :p
             }
 
         }
+    }
+
+    private void DisableEnemyComponents()
+    {       
+        GetComponent<MeleEnemy>().enabled = false;
+        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+        GetComponent<PathEnemy>().enabled = false;
+        GetComponent<BoxCollider2D>().enabled = false;
+    }
+
+    //disable every usable component for player
+    private void DisablePlayerComponents()
+    {
+        GetComponent<PlayerMovement>().enabled = false;             
+        GetComponent<PlayerAttack>().enabled = false;               
+        GetComponent<WaterJetpack>().enabled = false;               
+        GetComponent<PlayerEating>().enabled = false;               
     }
 
     //Healing
