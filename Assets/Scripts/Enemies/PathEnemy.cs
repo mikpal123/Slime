@@ -52,7 +52,7 @@ public class PathEnemy : MonoBehaviour
         }
         else
         {
-             if (haveRunAnimation) { anim.SetBool("run", true); }//setup value for run, if x!=0 start run anim
+             if (haveRunAnimation) { anim.SetBool("run", true); }
 
             if (movingLeft)
                 {

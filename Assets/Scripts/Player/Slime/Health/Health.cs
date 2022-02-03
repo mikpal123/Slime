@@ -75,10 +75,17 @@ public class Health : MonoBehaviour
 
     private void DisableEnemyComponents()
     {       
-        GetComponent<MeleEnemy>().enabled = false;
-        GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-        GetComponent<PathEnemy>().enabled = false;
-        GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<MeleEnemy>().enabled = false;      
+        if (GetComponent <FollowEnemy>()!= null)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+            GetComponent<FollowEnemy>().enabled = false;
+        }
+        if (GetComponent<PathEnemy>() != null)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
+            GetComponent<PathEnemy>().enabled = false;
+        }           
     }
 
     //disable every usable component for player
