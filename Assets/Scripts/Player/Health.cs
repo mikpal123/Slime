@@ -10,6 +10,9 @@ public class Health : MonoBehaviour
     [SerializeField] private float startingHealth;          //How much HP player will have on staart
     [SerializeField] private float healTimer;               //how long character will regenerae 1hp cointainer
     [SerializeField] private bool canAutoHeal;               //if true character can regenerate HP
+    [SerializeField] private bool hurtAnimation;               
+    [SerializeField] private int experience;
+    [SerializeField] private LevelSystem levelSystem;
 
     //variables unavailable in editor
     public float currentHealth { get; private set; }        //Current HP of character
@@ -48,6 +51,7 @@ public class Health : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth - _damage, 0, startingHealth); //Change character HP, the value will not exceed clamp
         if (currentHealth > 0)                                                   //Check if character still have more than 0 HP
         {                                                                        //if true
+            if (hurtAnimation)                                                  
             anim.SetTrigger("hurt");                                             //start anim
         }
         else                                                                    //if false
@@ -59,13 +63,13 @@ public class Health : MonoBehaviour
                 //for player
                 if(GetComponent<PlayerMovement>() != null)                      //check if its not null
                 {
-                    DisablePlayerComponents();
+                    PlayerDie();
                 }
 
                 //for enemy
                 if (GetComponent <MeleEnemy>() != null)                     //check if its not null
                 {
-                    DisableEnemyComponents();
+                    EnemyDie();
                 }
                 dead = true;                                                    //make sure player is dead :p
             }
@@ -73,7 +77,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void DisableEnemyComponents()
+    private void EnemyDie()
     {       
         GetComponent<MeleEnemy>().enabled = false;      
         if (GetComponent <FollowEnemy>()!= null)
@@ -85,11 +89,12 @@ public class Health : MonoBehaviour
         {
             GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
             GetComponent<PathEnemy>().enabled = false;
-        }           
+        }   
+        levelSystem.AddExperience(experience);
     }
 
     //disable every usable component for player
-    private void DisablePlayerComponents()
+    private void PlayerDie()
     {
         GetComponent<PlayerMovement>().enabled = false;             
         GetComponent<PlayerAttack>().enabled = false;               

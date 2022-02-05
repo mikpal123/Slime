@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class LevelSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public int level;
+    public int exp;
+    private int expToNextLevel;
+
+    public LevelSystem()
     {
-        
+        level = 0;
+        exp = 0;
+        expToNextLevel = 100;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddExperience(int _ammount)
     {
-        
+        exp += _ammount;
+        if(exp >= expToNextLevel)
+        {
+            level++;
+            exp -= expToNextLevel;
+        }
+    }
+
+    public float GetCurrentExp()
+    {
+        return (float)exp/expToNextLevel;
+    }
+
+    public int GetCurrentLevel()
+    {
+        return level;
     }
 }
